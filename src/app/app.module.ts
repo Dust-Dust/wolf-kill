@@ -22,6 +22,8 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { OneNightUltimateWerewolfComponent } from './pages/games/one-night-ultimate-werewolf/one-night-ultimate-werewolf.component';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzStepsModule } from 'ng-zorro-antd/steps';
 registerLocaleData(zh);
 
 @NgModule({
@@ -45,7 +47,9 @@ registerLocaleData(zh);
     ReactiveFormsModule,
     NzInputModule,
     NzInputNumberModule,
-    NzSelectModule
+    NzSelectModule,
+    NzDividerModule,
+    NzStepsModule
   ],
   providers: [{ provide: NZ_I18N, useValue: zh_CN }],
   bootstrap: [AppComponent]

@@ -6,10 +6,266 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./one-night-ultimate-werewolf.component.scss']
 })
 export class OneNightUltimateWerewolfComponent implements OnInit {
-  personNum: number = 5;
+  // 游戏人数
+  personNum = 5;
+  // 身份数组
+  godArray = ['狼先知', '爪牙', '预言家', '强盗', '女巫', '捣蛋鬼', '酒鬼', '失眠者'];
+
+
+  // 场上的身份牌
+  Bright = [];
+  // 身份池中的身份牌
+  Dark = [];
+  // 复盘
+  Result = [];
+
+  // 狼先知的选择
+  god1: number;
+  // 是否有狼先知
+  isGod1: boolean;
+  // 狼先知的号数
+  god1Num: number;
+  // 爪牙
+  god2Num: number;
+  // 预言家的选择
+  god3: number;
+  // 预言家
+  god3Num: number;
+  // 强盗的选择
+  god4: number;
+  // 强盗
+  god4Num: number;
+  // 女巫的选择
+  god5: number;
+  // 女巫看到的牌
+  god5random: number;
+  // 女巫
+  god5Num: number;
+  // 捣蛋鬼
+  god6Num: number;
+  // 酒鬼
+  god7Num: number;
+  // 失眠者
+  god8Num: number;
+
+  current = -1;
+
+  index = 'First-content';
+
   constructor() { }
 
   ngOnInit() {
   }
 
+  // 游戏开始
+  start(): void {
+    // 进入步骤条
+    this.current = 0;
+    // 重置所需要的号数
+    this.god1Num = 0;
+    this.god1 = 0;
+    // 随机排列身份数组
+    this.godArray.sort(function () {
+      return 0.5 - Math.random();
+    })
+
+    this.godArray.sort((a, b) => 0.5 - Math.random());
+    // 分配身份，没有被分配的身份则留在身份池里
+    let i = 0;
+    // 格式化身份池，避免出BUG
+    this.Bright = [];
+    this.Dark = [];
+    this.godArray.forEach(index => {
+      if (i < this.personNum) {
+        this.Bright.push(index);
+      } else {
+        this.Dark.push(index);
+      }
+      i++;
+    });
+
+    this.Result.push(
+      `初始身份从1-${this.personNum}号为：${this.Bright}，身份池中身份牌为：${this.Dark}`
+    )
+
+    this.search();
+  }
+
+  // 重开游戏，清除所有数据
+  reset(): void {
+    this.current = -1;
+    this.Bright = [];
+    this.Dark = [];
+    this.Result = [];
+  }
+
+  next(index): void {
+    let i = 0;
+    switch (index) {
+      // 狼先知睁眼
+      case 0:
+        // 判断是否有狼先知
+        if (this.god1Num == 0) {
+          this.isGod1 = true;
+        } else {
+          this.isGod1 = false;
+        }
+        break;
+      case 1:
+        // 判断是否有狼先知
+        if (this.isGod1 == false) {
+          this.Result.push(
+            `${this.god1Num}号狼先知查验${this.god1}号身份为${this.Bright[this.god1 - 1]}`
+          )
+        }
+        break;
+      // 预言家睁眼
+      case 3:
+        if (this.god3 == 99) {
+          this.Result.push(
+            `${this.god3Num}号预言家查验身份池里有${this.Dark[0]}和${this.Dark[2]}`
+          )
+        } else {
+          this.Result.push(
+            `${this.god3Num}号预言家查验${this.god3}号身份为${this.Bright[this.god3 - 1]}`
+          )
+        }
+        break;
+      // 强盗睁眼
+      case 4:
+
+        if (this.god4Num !== 0) {
+          // 交换身份
+          this.Result.push(
+            `${this.god4Num}号强盗查看并交换了${this.god4}号${this.Bright[this.god4 - 1]}的身份牌`
+          )
+          const option = this.Bright[this.god4 - 1];
+          this.Bright[this.god4 - 1] = '强盗';
+          this.Bright[this.god4Num - 1] = option;
+        }
+
+        // 提前获取女巫所看到的身份牌
+        const i = Math.ceil(Math.random() * (8 - this.personNum) + 0)
+        console.log('i: ', i);
+        this.god5random = this.Dark[i];
+        console.log('this.god5random: ', this.god5random);
+        break;
+      case 5:
+        if (this.god5Num !== 0) {
+          this.Result.push(
+            `${this.god4Num}号女巫查看了身份池里的${this.god5random}并与${this.god5}号${this.Bright[this.god5 - 1]}的身份牌进行了交换`
+          )
+        }
+        break;
+
+      default:
+        break;
+    }
+    this.current += 1;
+  }
+
+  done(): void {
+    console.log('done');
+  }
+
+  resetGod(): void {
+    this.start();
+  }
+  // 查询每个身份的号数
+  search(): void {
+    let i = 0;
+    // 查询狼先知的号数
+    this.Bright.some(index => {
+      if (index === '狼先知') {
+        this.god1Num = i + 1;
+        return true;
+      } else {
+        this.god1Num = 0;
+      }
+      i++;
+    });
+
+    i = 0;
+    // 查询爪牙的号数
+    this.Bright.some(index => {
+      if (index === '爪牙') {
+        this.god2Num = i + 1;
+        return true;
+      } else {
+        this.god2Num = 0;
+      }
+      i++;
+    });
+
+    i = 0;
+    // 查询预言家的号数
+    this.Bright.some(index => {
+      if (index === '预言家') {
+        this.god3Num = i + 1;
+        return true;
+      } else {
+        this.god3Num = 0;
+      }
+      i++;
+    });
+
+    i = 0;
+    // 查询强盗的号数
+    this.Bright.some(index => {
+      if (index === '强盗') {
+        this.god4Num = i + 1;
+        return true;
+      } else {
+        this.god4Num = 0;
+      }
+      i++;
+    });
+    i = 0;
+    // 查询女巫的号数
+    this.Bright.some(index => {
+      if (index === '女巫') {
+        this.god5Num = i + 1;
+        return true;
+      } else {
+        this.god5Num = 0;
+      }
+      i++;
+    });
+
+    i = 0;
+    // 查询捣蛋鬼的号数
+    this.Bright.some(index => {
+      if (index === '捣蛋鬼') {
+        this.god6Num = i + 1;
+        return true;
+      } else {
+        this.god6Num = 0;
+      }
+      i++;
+    });
+
+    i = 0;
+    // 查询酒鬼的号数
+    this.Bright.some(index => {
+      if (index === '酒鬼') {
+        this.god7Num = i + 1;
+        return true;
+      } else {
+        this.god7Num = 0;
+      }
+      i++;
+    });
+
+    i = 0;
+    // 查询失眠者的号数
+    this.Bright.some(index => {
+      if (index === '失眠者') {
+        this.god8Num = i + 1;
+        return true;
+      } else {
+        this.god8Num = 0;
+      }
+      i++;
+    });
+  }
 }
