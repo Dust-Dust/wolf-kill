@@ -28,7 +28,10 @@
               "src/assets"
             ],
             "styles": [
+              "src/theme.less",
+              "src/styles.scss",
               "node_modules/ng-zorro-antd/ng-zorro-antd.min.css"
+            ],
             "scripts": []
           },
           "configurations": {
