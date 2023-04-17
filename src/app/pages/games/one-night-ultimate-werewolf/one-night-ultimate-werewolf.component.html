@@ -1,14 +1,16 @@
 <div>
   <span>请选择游戏人数：</span>
-  <nz-select [(ngModel)]="personNum" style="width: 100px;" [nzDisabled]="current != -1" [nzPlaceHolder]="5">
+  <nz-select [(ngModel)]="personNum" style="width: 100px;" [nzDisabled]="current != -1" [nzPlaceHolder]="5"
+    nzTooltipTitle="游戏开始后无法更换人数" nzTooltipPlacement="top" nz-tooltip>
     <nz-option nzValue=4 nzLabel="4"></nz-option>
     <nz-option nzValue=5 nzLabel="5"></nz-option>
   </nz-select>
-  <button nz-button nzType="primary" style="margin-left: 10px;width: 80px;" (click)="start()"
-    *ngIf="current == -1">确认</button>
-  <button nz-button nzType="default" style="margin-left: 10px;width: 80px;" (click)="reset()">重开</button>
-  <button nz-button nzType="default" style="margin-left: 10px;width: 80px;" (click)="resetGod()"
-    *ngIf="current==0">重ROLL</button>
+  <button nzTooltipTitle="开始一局新的游戏" nzTooltipPlacement="top" nz-button nz-tooltip nzType="primary"
+    style="margin-left: 10px;width: 80px;" (click)="start()" *ngIf="current == -1">确认</button>
+  <button nzType="default" style="margin-left: 10px;width: 80px;" (click)="reset()" nzTooltipTitle="重新开始一局"
+    nzTooltipPlacement="top" nz-button nz-tooltip>重开</button>
+  <button nzTooltipTitle="重新分配身份" nzTooltipPlacement="top" nz-button nz-tooltip nzType="default"
+    style="margin-left: 10px;width: 80px;" (click)="resetGod()" *ngIf="current==0">重ROLL</button>
 </div>
 <nz-divider></nz-divider>
 <nz-steps [nzCurrent]="current">
@@ -108,7 +110,8 @@
   <button nz-button nzType="default" (click)="next(current)" *ngIf="current < 9 && current != -1" style="width: 200px;">
     <span>Next</span>
   </button>
-  <button nz-button nzType="primary" (click)="done()" *ngIf="current === 9">
+  <button nzTooltipTitle="请手动复制文字粘贴至游戏宏内" nzTooltipPlacement="right" nz-button nz-tooltip nz-button nzType="primary"
+    (click)="done()" *ngIf="current === 9">
     <span>生成复盘宏</span>
   </button>
   <nz-modal [(nzVisible)]="isVisible" nzTitle="复盘宏" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">

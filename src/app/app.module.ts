@@ -25,6 +25,8 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzStepsModule } from 'ng-zorro-antd/steps';
 import { NzMessageModule } from 'ng-zorro-antd/message';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 registerLocaleData(zh);
 
 @NgModule({
@@ -51,7 +53,8 @@ registerLocaleData(zh);
     NzSelectModule,
     NzDividerModule,
     NzStepsModule,
-    NzMessageModule
+    NzMessageModule,
+    NzToolTipModule,
 
   ],
   providers: [{ provide: NZ_I18N, useValue: zh_CN }],
