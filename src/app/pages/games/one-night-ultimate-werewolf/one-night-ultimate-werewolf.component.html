@@ -61,7 +61,7 @@
   <div class="god" *ngIf="current == 4">
     强盗或许只对金钱财宝感兴趣，轮到他了也依旧一脸不屑<br>
     “别急，虽然没有财宝，但是你可以抢夺别人的身份牌（笑），<br>
-    你想查看谁的身份牌并将自己的牌和对方进行交换？告诉我ta的号数”
+    你想查看谁的身份牌并将自己的牌和对方进行交换？告诉我ta的号数”<br>
     <nz-select [(ngModel)]="god4" style="width: 200px;margin-top: 10px;" [nzDisabled]="god4Num === 0">
       <nz-option *ngFor="let option of Bright; let i=index" nzValue='{{i+1}}' nzLabel="{{i+1}}号"></nz-option>
     </nz-select>
@@ -78,13 +78,24 @@
   <div class="god" *ngIf="current == 6">
     捣蛋鬼在房间里上蹿下跳，就像有无限的精力<br>
     “你想交换哪两个人的身份牌，告诉我两个人的号数”<br>
+    <nz-select [(ngModel)]="god61" style="width: 200px;margin-top: 10px;" [nzDisabled]="god6Num === 0">
+      <nz-option *ngFor="let option of Bright; let i=index" nzValue='{{i+1}}' nzLabel="{{i+1}}号"></nz-option>
+    </nz-select>
+    <br>
+    <nz-select [(ngModel)]="god62" style="width: 200px;margin-top: 10px;" [nzDisabled]="god6Num === 0">
+      <nz-option *ngFor="let option of Bright; let i=index" nzValue='{{i+1}}' nzLabel="{{i+1}}号"></nz-option>
+    </nz-select>
   </div>
   <div class="god" *ngIf="current == 7">
     酒鬼的鼾声从水晶球中传了出来，店长皱了皱眉，从卡池里拿出一张牌丢进了水晶球<br>
-    “你的身份牌和卡池中随机的一张身份牌进行了交换，但是你睡死了并不知道是什么，等最后的时候你自然就会知道了……”<br>
+    “你的身份牌和卡池中随机的一张身份牌进行了交换，但是你睡死了并不知道是什么，等最后的时候你自然就会知道了……”<br><br>
+    <strong *ngIf="god7Num !== 0">酒鬼拿到的身份牌是：{{god7random}}</strong><br>
+    <strong *ngIf="god7Num == 0" style="color: red;">本局没有酒鬼</strong>
   </div>
   <div class="god" *ngIf="current == 8">
-    失眠者眨了眨充满血丝的眼睛，打开房门看了眼门上若隐若现的身份牌，然后快速的关上门回到了屋内<br>
+    失眠者眨了眨充满血丝的眼睛，打开房门看了眼门上若隐若现的身份牌，然后快速的关上门回到了屋内<br><br>
+    <strong *ngIf="god8Num !== 0">失眠者当前的身份是：{{god8random}}</strong><br>
+    <strong *ngIf="god8Num == 0" style="color: red;">本局没有失眠者</strong>
   </div>
   <div class="god" *ngIf="current == 9">
     店长看着逐渐暗淡下来的水晶球：“好好入睡吧，或许是最后一觉了呢？”，然后轻轻打了一个响指离开了店内
@@ -100,6 +111,17 @@
   <button nz-button nzType="primary" (click)="done()" *ngIf="current === 9">
     <span>生成复盘宏</span>
   </button>
+  <nz-modal [(nzVisible)]="isVisible" nzTitle="复盘宏" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+    <ng-container *nzModalContent>
+      <strong *ngFor="let result of review">
+        {{result}} <br>
+      </strong>
+    </ng-container>
+    <div *nzModalFooter>
+      <button nz-button nzType="default" (click)="handleCancel()">返回</button>
+      <!-- <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="isConfirmLoading">一键复制</button> -->
+    </div>
+  </nz-modal>
 </div>
 
 <div *ngIf="Bright.length > 0" style="margin-top: 24px;">

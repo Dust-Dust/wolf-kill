@@ -24,6 +24,7 @@ import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzStepsModule } from 'ng-zorro-antd/steps';
+import { NzMessageModule } from 'ng-zorro-antd/message';
 registerLocaleData(zh);
 
 @NgModule({
@@ -49,7 +50,9 @@ registerLocaleData(zh);
     NzInputNumberModule,
     NzSelectModule,
     NzDividerModule,
-    NzStepsModule
+    NzStepsModule,
+    NzMessageModule
+
   ],
   providers: [{ provide: NZ_I18N, useValue: zh_CN }],
   bootstrap: [AppComponent]
